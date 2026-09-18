@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harshit is obsessed with Sampriti</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#30205c 0%,#130d29 45%,#070510 100%);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.bg{position:fixed;inset:0;pointer-events:none}
+.star{
+  position:absolute;width:3px;height:3px;background:white;border-radius:50%;
+  opacity:.6;animation:twinkle 2s infinite alternate;
+}
+.card{
+  position:relative;width:min(900px,92vw);padding:55px 35px;
+  text-align:center;border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.07);backdrop-filter:blur(18px);
+  border-radius:30px;box-shadow:0 25px 80px rgba(0,0,0,.45);
+}
+h1{font-size:clamp(2rem,6vw,4.7rem);line-height:1.05}
+h1 span{color:#ff75b8}
+.subtitle{margin-top:18px;color:#d8cfee;font-size:1.05rem}
+.countdown{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  margin:38px auto 25px;max-width:720px;
+}
+.unit{
+  padding:22px 10px;border-radius:20px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.12);
+}
+.num{font-size:clamp(2rem,7vw,4rem);font-weight:800}
+.label{margin-top:5px;color:#bfb5d9;font-size:.8rem;text-transform:uppercase;letter-spacing:2px}
+#message{min-height:28px;color:#ffb7d8;font-weight:bold}
+button{
+  margin-top:22px;padding:12px 22px;border:0;border-radius:999px;
+  background:#ff5cab;color:white;font-weight:bold;cursor:pointer;
+  transition:.2s;box-shadow:0 8px 25px rgba(255,92,171,.25)
+}
+button:hover{transform:scale(1.06)}
+.heart{
+  position:fixed;font-size:20px;pointer-events:none;
+  animation:float 3s linear forwards;
+}
+@keyframes twinkle{to{opacity:.15;transform:scale(.5)}}
+@keyframes float{
+  from{transform:translateY(0) scale(1);opacity:1}
+  to{transform:translateY(-110vh) translateX(var(--x)) rotate(30deg) scale(.5);opacity:0}
+}
+@media(max-width:600px){
+ .card{padding:40px 18px}.countdown{gap:7px}
+ .unit{padding:15px 5px;border-radius:15px}
+ .label{font-size:.65rem;letter-spacing:1px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg" id="stars"></div>
+
+<main class="card">
+  <h1>Harshit is obsessed with <span>Sampriti</span></h1>
+  <p class="subtitle">The countdown nobody asked for but everybody needed</p>
+
+  <section class="countdown">
+    <div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
+    <div class="unit"><div class="num" id="hours">0</div><div class="label">Hours</div></div>
+    <div class="unit"><div class="num" id="minutes">0</div><div class="label">Minutes</div></div>
+    <div class="unit"><div class="num" id="seconds">0</div><div class="label">Seconds</div></div>
+  </section>
+
+  <p id="message">Counting down to 15 February 2027...</p>
+  <button onclick="releaseTheObsession()">Click for important information</button>
+</main>
+
+<script>
+const target = new Date("2027-02-15T00:00:00").getTime();
+
+function update(){
+  const now = Date.now();
+  let diff = target - now;
+
+  if(diff <= 0){
+    document.getElementById("days").textContent = "0";
+    document.getElementById("hours").textContent = "0";
+    document.getElementById("minutes").textContent = "0";
+    document.getElementById("seconds").textContent = "0";
+    document.getElementById("message").textContent = "15 February 2027 has arrived.";
+    return;
+  }
+
+  const day = 86400000, hour = 3600000, minute = 60000;
+  document.getElementById("days").textContent = Math.floor(diff/day);
+  diff %= day;
+  document.getElementById("hours").textContent = Math.floor(diff/hour);
+  diff %= hour;
+  document.getElementById("minutes").textContent = Math.floor(diff/minute);
+  diff %= minute;
+  document.getElementById("seconds").textContent = Math.floor(diff/1000);
+}
+update();
+setInterval(update,1000);
+
+for(let i=0;i<90;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"%";
+  s.style.top=Math.random()*100+"%";
+  s.style.animationDelay=Math.random()*2+"s";
+  document.getElementById("stars").appendChild(s);
+}
+
+function releaseTheObsession(){
+  document.getElementById("message").textContent =
+    "Breaking news: Harshit is STILL obsessed with Sampriti.";
+  for(let i=0;i<28;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.textContent=["♥","♡","✦"][Math.floor(Math.random()*3)];
+    h.style.left=Math.random()*100+"vw";
+    h.style.bottom="-30px";
+    h.style.setProperty("--x",(Math.random()*240-120)+"px");
+    h.style.animationDuration=(2+Math.random()*2)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),4000);
+  }
+}
+</script>
+</body>
+</html>
